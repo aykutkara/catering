@@ -1,0 +1,25 @@
+.selection-card{
+  border: 1px solid #c9c9ff;
+  cursor: pointer;
+  border-radius: 1rem;
+  min-width: 50rem ;
+  &:active{
+    background-color: #5656ab;
+    color: white;
+  }
+  .image img{
+    border-radius: 1rem 0 0 1rem;
+  }
+  .content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5rem 2rem;
+
+    .card-title{
+    }
+    .date-p{
+      text-align: end;
+    }
+  }
+}
