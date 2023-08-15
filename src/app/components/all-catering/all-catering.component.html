@@ -1,0 +1,58 @@
+<div class="all-catering">
+  <h3 class="text-center my-3">Tüm İkramlar</h3>
+  <div class="d-flex mb-4 top-div">
+    <div class="input-field searchDiv">
+      <span class="fa fa-search p-2"></span>
+      <input formControlName="email" type="text" placeholder="Search">
+    </div >
+    <div class="new-catering mx-2 d-flex align-items-center">
+      <button class="btn btn-info mx-1" data-bs-toggle="modal" data-bs-target="#exampleModal">Yeni İkram</button>
+    </div>
+    <div class="dropdown d-flex align-items-center">
+      <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Sıralama
+      </button>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="/all-catering">Tarihe göre en yeni</a></li>
+        <li><a class="dropdown-item" href="/all-catering">Tarihe göre en eski</a></li>
+        <li><a class="dropdown-item" href="/all-catering">En çok tercih edilen</a></li>
+        <li><a class="dropdown-item" href="/all-catering">En az tercih edilen</a></li>
+      </ul>
+    </div>
+  </div>
+  <ol class="list-group list-group-numbered mb-4">
+    <li class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let item of allCatering">
+      <div class="ms-2 me-auto w-100">
+        <div class="fw-bold">{{item.name}}</div>
+        <div class="d-flex justify-content-between">
+          <div class="d-flex">
+            <img [src]="item.image" style="height: 70px; width: 100px">
+            <p class="mx-3 d-flex align-items-center">Son Dağıtılma Tarihi : {{item.lastDistribution![item.lastDistribution!.length-1]}}</p>
+          </div>
+          <div class="setting-list d-flex align-items-end mx-5">
+            <button class="btn btn-primary mx-2 settings-btn"><span class="fa fa-edit"></span>Düzenle</button>
+            <button class="btn btn-danger settings-btn"><span class="fa fa-edit"></span>Sil</button>
+          </div>
+        </div>
+      </div>
+      <span class="badge bg-primary rounded-pill">{{item.maxVotes}}</span>
+    </li>
+  </ol>
+</div>
+<div class="modal" tabindex="-1"  id="exampleModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Yeni İkram Ekle</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>

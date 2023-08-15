@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit{
   isText:boolean = false;
   eyeIcon:string = 'fa-eye-slash';
   signupForm!:FormGroup;
-  constructor(private fb:FormBuilder,private fbService:AuthService,private router:Router) {
+  constructor(private fb:FormBuilder) {
   }
   ngOnInit(): void {
     this.initForm();

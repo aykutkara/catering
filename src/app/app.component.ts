@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import { inject } from '@angular/core';
-import { Firestore, collectionData, collection } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import {ICatering} from "./interfaces/catering.interface";
-
+import { Location } from '@angular/common';
+import {NavigationEnd, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -11,16 +8,27 @@ import {ICatering} from "./interfaces/catering.interface";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  item$: Observable<ICatering[]>;
-  firestore: Firestore = inject(Firestore);
-  constructor() {
-    const itemCollection = collection(this.firestore, 'selections');
-    console.log(itemCollection)
-    this.item$ = collectionData(itemCollection) as Observable<ICatering[]>
+
+  activePage!:string;
+  isLogin:boolean=true;
+  constructor(private router:Router) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.activePage=event.url;
+        if (this.activePage == '/login' || this.activePage == '/register' || this.activePage == '/') {
+          this.isLogin = false;
+        }
+      }
+    });
+
   }
   ngOnInit() {
 
 
+
+
   }
+
+
 
 }

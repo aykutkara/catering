@@ -6,7 +6,7 @@
   text-align: center;
   margin-bottom: 10px;
 }
-#forget{
+#forget,#forget2{
   min-width: 100px;
   margin-left: auto;
   text-decoration: none;
@@ -21,7 +21,7 @@ a:hover{
   margin: 0;
   cursor: pointer;
 }
-.btn{
+.loginRegisterBtn{
   margin-top: 20px;
   border-radius: 15px;
 }

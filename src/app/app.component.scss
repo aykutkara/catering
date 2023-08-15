@@ -1,0 +1,15 @@
+.navbar-span{
+  padding: 1.1rem 1rem;
+  cursor: pointer;
+
+  &:hover{
+    background-color: #ababdc;
+  }
+}
+.active{
+  background-color: #5656ab;
+  color: white;
+  &:hover{
+    background-color: #5656ab;
+  }
+}

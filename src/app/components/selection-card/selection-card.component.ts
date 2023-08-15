@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {ICatering} from "../../interfaces/catering.interface";
 
 @Component({
   selector: 'app-selection-card',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class SelectionCardComponent {
 
+
+  @Input() data: ICatering | undefined;
+  @Input() isActive: boolean|undefined;
+  constructor() {
+
+  }
 }

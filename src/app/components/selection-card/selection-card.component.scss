@@ -3,9 +3,8 @@
   cursor: pointer;
   border-radius: 1rem;
   min-width: 50rem ;
-  &:active{
-    background-color: #5656ab;
-    color: white;
+  &:hover{
+
   }
   .image img{
     border-radius: 1rem 0 0 1rem;
@@ -22,4 +21,8 @@
       text-align: end;
     }
   }
+}
+.active{
+  background-color: #5656ab;
+  color: white;
 }

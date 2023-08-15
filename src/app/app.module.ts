@@ -10,9 +10,10 @@ import {AngularFireStorageModule} from "@angular/fire/compat/storage";
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthService} from "./services/auth.service";
 import { SelectionCardComponent } from './components/selection-card/selection-card.component';
+import { AllCateringComponent } from './components/all-catering/all-catering.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SelectionCardComponent } from './components/selection-card/selection-ca
     LoginComponent,
     RegisterComponent,
     SelectionCardComponent,
+    AllCateringComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +31,8 @@ import { SelectionCardComponent } from './components/selection-card/selection-ca
     provideFirestore(() => getFirestore()),
     AngularFireAuthModule,
     AngularFireStorageModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

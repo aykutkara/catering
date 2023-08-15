@@ -1,1 +1,22 @@
-<router-outlet></router-outlet>
+<div class="outer" *ngIf="isLogin">
+  <div class="container">
+    <div class="row">
+      <div class="navbar-top d-flex align-items-center p-3 justify-content-between bg-white mt-5 rounded-3 col-8 offset-2">
+        <div>
+          <span class="navbar-span" [class.active]="activePage === '/home'"  routerLink="/home">Ana Sayfa</span>
+          <span class="navbar-span" [class.active]="activePage === '/all-catering'" routerLink="/all-catering">Tüm İkramlar</span>
+          <span class="navbar-span" [class.active]="activePage === 'aaa'">Geçmiş Oylamalar</span>
+        </div>
+        <div>
+          <span class="navbar-span" routerLink="/login">Profil</span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="vote-container bg-white mt-5 rounded-3 col-8 offset-2">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+<router-outlet *ngIf="!isLogin"></router-outlet>
