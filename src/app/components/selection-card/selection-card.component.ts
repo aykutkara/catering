@@ -9,7 +9,7 @@ import {ICatering} from "../../interfaces/catering.interface";
 export class SelectionCardComponent {
 
 
-  @Input() data: ICatering | undefined;
+  @Input() data!: ICatering ;
   @Input() isActive: boolean|undefined;
   constructor() {
 

@@ -8,8 +8,22 @@
 .list-group{
   width: 90%;
   margin: 0 auto;
+  max-height: 35rem;
+    overflow-y: scroll;
 }
 .settings-btn{
   font-size: 0.8rem;
 }
-
+.add-catering-input{
+  border: 1px solid #ddd;
+  outline: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: .25rem;
+}
+.add-catering-label{
+    font-weight: 500;
+  margin-top: 1rem;
+}
+.invalid-input{
+  border: 1px solid red;
+}
