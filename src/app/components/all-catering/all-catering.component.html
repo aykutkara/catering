@@ -34,7 +34,7 @@
               <span class="fa fa-edit"></span>
               Düzenle
             </button>
-            <button (click)="deleteCatering(item.id)" class="btn btn-danger settings-btn"><span class="fa fa-edit"></span>Sil</button>
+            <button (click)="deleteCatering(item)" class="btn btn-danger settings-btn"><span class="fa fa-edit"></span>Sil</button>
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Kapat</button>
-          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Kaydet</button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="cateringForm.invalid">Kaydet</button>
         </div>
       </form>
     </div>

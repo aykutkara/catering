@@ -3,6 +3,8 @@ import {CateringService} from "../../services/catering.service";
 import {ICatering} from "../../interfaces/catering.interface";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import ValidateForm from "../../helpers/validateForm";
+import {addWarning} from "@angular-devkit/build-angular/src/utils/webpack-diagnostics";
+import {identity} from "rxjs";
 
 @Component({
   selector: 'app-all-catering',
@@ -13,7 +15,7 @@ export class AllCateringComponent implements OnInit{
 
   allCatering:ICatering[] | undefined;
   cateringForm: FormGroup | any;
-  selectedCatering: ICatering | undefined;
+  selectedCatering: any;
   constructor(private cateringService: CateringService,private fb: FormBuilder) {
     this.cateringService.getData().subscribe(data => {
       this.allCatering = data;
@@ -21,7 +23,6 @@ export class AllCateringComponent implements OnInit{
   }
   ngOnInit(): void {
     this.initForm();
-
   }
 
   initForm() {
@@ -39,14 +40,16 @@ export class AllCateringComponent implements OnInit{
 
   async saveCatering() {
     if (this.selectedCatering !== undefined) {
-        if (this.cateringForm.valid) {
-
-          this.initForm();
-
-        }
-        else {
-            this.cateringForm.markAllAsTouched();
-        }
+      if (this.cateringForm.valid) {
+        this.selectedCatering.name = this.cateringForm.value.name;
+        this.selectedCatering.image = this.cateringForm.value.image;
+        await this.cateringService.updateData(this.selectedCatering.firebaseId, this.selectedCatering);
+        this.selectedCatering = undefined;
+        this.initForm();
+      }
+      else {
+          this.cateringForm.markAllAsTouched();
+      }
     }
     else {
       if (this.cateringForm.valid) {
@@ -68,12 +71,11 @@ export class AllCateringComponent implements OnInit{
 
   }
 
-  async deleteCatering(id:number) {
-    console.log(id);
-    await this.cateringService.deleteData(id);
+   async deleteCatering(item: any) {
+    console.log(item.id)
+    await this.cateringService.deleteData(item.firebaseId);
 
   }
-
 
   updateCatering(item: ICatering) {
     this.selectedCatering = item;

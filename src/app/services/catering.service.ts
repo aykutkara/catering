@@ -1,39 +1,49 @@
 import {inject, Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {ICatering} from "../interfaces/catering.interface";
-import {addDoc, collection, collectionData, deleteDoc, doc, Firestore} from "@angular/fire/firestore";
+import {
+  addDoc,
+  collection,
+  collectionData,
+  deleteDoc,
+  doc,
+  Firestore,
+  updateDoc
+} from "@angular/fire/firestore";
+import {update} from "@angular/fire/database";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CateringService {
 
-  item$!: Observable<ICatering[]>;
+  item$!: Observable<any[]>;
   firestore: Firestore = inject(Firestore);
 
   constructor() {
 
   }
 
-  getData(): Observable<ICatering[]>{
+  getData(): Observable<any[]>{
     const itemCollection = collection(this.firestore, 'selections');
-    return this.item$ = collectionData(itemCollection) as Observable<ICatering[]>;
+    console.log(collectionData(itemCollection))
+    return this.item$ = collectionData(itemCollection, { idField: 'firebaseId' });
 
   }
-
-
 
   async addData(data:ICatering) {
-
-    await addDoc(collection(this.firestore, 'selections'), data);
-
+    await addDoc(collection(this.firestore, `selections`), data);
   }
-  async deleteData(id:number) {
 
-    const docId = id.toString();
-    await deleteDoc(doc(this.firestore, 'selections', docId));
-
+  async deleteData(id:string) {
+    await deleteDoc(doc(this.firestore, 'selections', id));
   }
+
+  async updateData(id:string, data:any) {
+    await updateDoc(doc(this.firestore, 'selections', id), data);
+  }
+
 
 
 

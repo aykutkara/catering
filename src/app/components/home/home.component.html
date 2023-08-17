@@ -1,12 +1,62 @@
-
-<h2 class="text-center my-3">Haftanın Oylaması  --> 16.08.2023</h2>
-<div class="voting-part my-5">
-  <div class="form-check d-flex align-items-center" *ngFor="let item of catering$ | async; let i = index">
-    <input (click)="selectCard(item)"  class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault{{i}}">
-    <label  class="form-check-label" for="flexRadioDefault{{i}}">
-      <app-selection-card [isActive]="item === selectedCard" [data]="item"></app-selection-card>
-    </label>
-  </div>
+<h2 class="text-center my-3">Oylama Sayfası</h2>
+<div class="voting-part mb-4 mt-4">
+   <div *ngIf="isAdmin" class="d-flex mb-3 align-items-center justify-content-between">
+     <div class="d-flex align-items-center">
+       <button class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="isVote? null :'#staticDrop'" (click)="alertStartVote() ">Oylama Başlat</button>
+       <h4 class="mx-5" *ngIf="isVote">16/08/2023 için oylama</h4>
+     </div>
+     <div>
+       <button class="btn btn-warning mx-3">Oylamayı Düzenle</button>
+       <button class="btn btn-danger" (click)="endVote()">Oylamayı Bitir</button>
+     </div>
+   </div>
+   <div>
+      <p *ngIf="!isVote">Şuanda aktif bir oylama yok veya oyunuzu kullandınız</p>
+      <div *ngIf="isVote">
+        <div class="voting-part my-5">
+          <div class="form-check d-flex align-items-center" *ngFor="let item of selectedCards; let i = index">
+            <input (click)="selectCard(item)"  class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault{{i}}">
+            <label  class="form-check-label" for="flexRadioDefault{{i}}">
+              <app-selection-card [isActive]="item === selectedCard" [data]="item"></app-selection-card>
+            </label>
+          </div>
+        </div>
+      </div>
+   </div>
 </div>
 <button class="btn btn-primary w-100 mb-3 py-2" (click)="vote()">Oy Ver</button>
+
+<div class="modal fade" id="staticDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticDropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticDropLabel">Oylam Başlat (3 Seçim Yapınız)</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetModal()"></button>
+      </div>
+      <div class="modal-body " *ngFor="let item of catering$ | async; let i = index">
+        <div class="form-check d-flex align-items-center">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked{{i}}" (change)="handleCheckboxChange($event,item)">
+        <label class="form-check-label" for="flexCheckChecked{{i}}">
+          <div class="ms-2 me-auto w-100">
+            <div class="fw-bold">{{item.name}}</div>
+            <div class="d-flex justify-content-between">
+              <div class="d-flex">
+                <img [src]="item.image" alt="" style="height: 70px; width: 100px">
+                <div>
+                  <p class="mx-3 d-flex align-items-center">Son Dağıtılma Tarihi : {{item.lastDistribution?item.lastDistribution[item.lastDistribution.length-1]:"Hiç dağıtılmadı"}}</p>
+                  <span class="badge bg-primary rounded-pill mx-3 p-2">Max seçilme sayısı: {{item.maxVotes? item.maxVotes : 0}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </label>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="resetModal()">Kapat</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="!isComplate" (click)="startVote()">Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>
 
