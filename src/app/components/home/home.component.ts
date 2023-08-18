@@ -1,7 +1,10 @@
-import {Component, ElementRef, inject, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component,OnInit, } from '@angular/core';
 import {Observable} from "rxjs";
 import {ICatering} from "../../interfaces/catering.interface";
 import {CateringService} from "../../services/catering.service";
+import {UserService} from "../../services/user.service";
+import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {VotesService} from "../../services/votes.service";
 
 @Component({
   selector: 'app-home',
@@ -12,24 +15,54 @@ export class HomeComponent implements OnInit{
 
   catering$: Observable<ICatering[]>;
 
-  selectedCard:ICatering|undefined;
-  selectedCards:ICatering[] = [];
+  selectedCard:any|undefined;
+  selectedCards:any[] = [];
 
   isVote:boolean = false;
-  isAdmin:boolean = true;
+  isAdmin:boolean = false;
 
   isComplate:boolean = false;
 
   selectCount:number=0;
   selectedCheckBoxes:any[] = [];
 
+  user: any = null;
+  userData: any =null;
 
-  constructor(private cateringService: CateringService) {
-    this.catering$ = this.cateringService.getData();
+  voteCards:any[] = [];
+  activeVote:any;
+  constructor(private cateringService: CateringService,
+              private userService:UserService,
+              private afAuth: AngularFireAuth,
+              private votesService: VotesService) {
+
+    this.catering$ = this.cateringService.getDatas();
+    this.votesService.getVotes().subscribe(data => {
+      data.map(item => {
+        if (item.isActive === true){
+          this.activeVote = item;
+          console.log(this.activeVote);
+          this.isVote = true;
+          this.voteCards= Object.values(item.options);
+          console.log(this.voteCards);
+        }
+      });
+    });
   }
 
-  ngOnInit(): void {
-
+  ngOnInit():void {
+    this.afAuth.authState.subscribe(user => {
+      if(user) {
+        this.user = user;
+        this.userService.getUserData(this.user.uid).then((doc) => {
+          this.userData = doc;
+          console.log(this.userData);
+          if (this.userData.userType === 'admin'){
+            this.isAdmin = true;
+          }
+        });
+      }
+    });
   }
 
   handleCheckboxChange(e:any,item:ICatering) {
@@ -56,21 +89,24 @@ export class HomeComponent implements OnInit{
     }
     console.log(this.isComplate)
   }
-  selectCard(card: ICatering): void {
+  selectCard(card:any): void {
     this.selectedCard = card;
   }
-  vote(): void {
+
+  async onVote(): Promise<void> {
     if (this.selectedCard === undefined){
       alert("Lütfen seçim yapınız.");
     }
     else {
+      this.selectedCard['voteCount']++;
+      console.log(this.activeVote.options)
+      //await this.votesService.updateData(this.activeVote.firebaseId, "d");
       console.log(this.selectedCard);
 
     }
   }
 
   resetModal() {
-
       this.selectedCheckBoxes.forEach((checkbox: any) => {
         checkbox.checked = false;
       });
@@ -78,12 +114,34 @@ export class HomeComponent implements OnInit{
       this.isComplate = false;
 
   }
-  startVote() {
-    this.isVote = true;
+  async startVote() {
+    const newVoteData = {
+      isActive: true,
+      startDate: new Date(),
+      endDate: null,
+      options:{
+        option1: {
+          voteCount: 0,
+          voteId: this.selectedCards[0].firebaseId
+        },
+        option2: {
+          voteCount: 0,
+          voteId: this.selectedCards[1].firebaseId
+        },
+        option3: {
+          voteCount: 0,
+          voteId: this.selectedCards[2].firebaseId
+        }
+      },
+      winnerId: null
+    };
+    await this.votesService.addVote(newVoteData);
     this.resetModal();
   }
 
-  endVote() {
+  async endVote() {
+    const endDate = new Date();
+    await this.votesService.updateData(this.activeVote.firebaseId, {isActive: false, endDate: endDate});
     this.isVote = false;
     this.selectedCards = [];
   }
@@ -98,7 +156,7 @@ export class HomeComponent implements OnInit{
   }
   editVote() {
     if (this.selectedCards.length !== 0){
-      //edit işlemlerini yapacağız.
+      //edit işlemlerini yapacağım.
     }
   }
 }

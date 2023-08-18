@@ -14,6 +14,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthService} from "./services/auth.service";
 import { SelectionCardComponent } from './components/selection-card/selection-card.component';
 import { AllCateringComponent } from './components/all-catering/all-catering.component';
+import {AngularFireModule} from "@angular/fire/compat";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AllCateringComponent } from './components/all-catering/all-catering.com
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
     AngularFireAuthModule,

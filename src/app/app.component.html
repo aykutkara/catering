@@ -8,7 +8,8 @@
           <span class="navbar-span" [class.active]="activePage === 'aaa'">Geçmiş Oylamalar</span>
         </div>
         <div>
-          <span class="navbar-span" routerLink="/login">Profil</span>
+          <span class="navbar-span">Profil</span>
+          <span class="navbar-span" (click)="logout()">Çıkış Yap</span>
         </div>
       </div>
     </div>

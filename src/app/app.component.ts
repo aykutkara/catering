@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import { Location } from '@angular/common';
 import {NavigationEnd, Router} from "@angular/router";
+import {AuthService} from "./services/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,8 @@ export class AppComponent implements OnInit{
 
   activePage!:string;
   isLogin:boolean=true;
-  constructor(private router:Router) {
+
+  constructor(private router:Router,private authService:AuthService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.activePage=event.url;
@@ -24,11 +25,8 @@ export class AppComponent implements OnInit{
   }
   ngOnInit() {
 
-
-
-
   }
-
-
-
+  logout() {
+    this.authService.logout();
+  }
 }

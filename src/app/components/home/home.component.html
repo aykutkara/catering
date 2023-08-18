@@ -14,17 +14,17 @@
       <p *ngIf="!isVote">Şuanda aktif bir oylama yok veya oyunuzu kullandınız</p>
       <div *ngIf="isVote">
         <div class="voting-part my-5">
-          <div class="form-check d-flex align-items-center" *ngFor="let item of selectedCards; let i = index">
+          <div class="form-check d-flex align-items-center" *ngFor="let item of voteCards; let i = index">
             <input (click)="selectCard(item)"  class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault{{i}}">
             <label  class="form-check-label" for="flexRadioDefault{{i}}">
-              <app-selection-card [isActive]="item === selectedCard" [data]="item"></app-selection-card>
+              <app-selection-card [isActive]="item === selectedCard" [inputData]="item"></app-selection-card>
             </label>
           </div>
         </div>
       </div>
    </div>
 </div>
-<button class="btn btn-primary w-100 mb-3 py-2" (click)="vote()">Oy Ver</button>
+<button *ngIf="isVote" class="btn btn-primary w-100 mb-3 py-2" (click)="onVote()">Oy Ver</button>
 
 <div class="modal fade" id="staticDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticDropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">

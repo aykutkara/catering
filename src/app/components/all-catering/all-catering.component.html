@@ -1,12 +1,12 @@
 <div class="all-catering">
   <h3 class="text-center my-3">Tüm İkramlar</h3>
   <div class="d-flex mb-4 top-div">
-    <div class="input-field searchDiv">
+    <div class="input-field" [ngClass]="isAdmin?'searchDiv':'longSearch'">
       <span class="fa fa-search p-2"></span>
-      <input type="text" placeholder="Search">
+      <input [(ngModel)]="searchText" (input)="onSearchTextChange()" type="text" placeholder="Search">
     </div >
     <div class="new-catering mx-2 d-flex align-items-center">
-      <button type="button" class="btn btn-info mx-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Yeni İkram</button>
+      <button *ngIf="isAdmin" type="button" class="btn btn-info mx-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Yeni İkram</button>
     </div>
     <div class="dropdown d-flex align-items-center">
       <button class="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -21,7 +21,7 @@
     </div>
   </div>
   <ol class="list-group list-group-numbered mb-4">
-    <li class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let item of allCatering">
+    <li class="list-group-item d-flex justify-content-between align-items-start" *ngFor="let item of searchCatering">
       <div class="ms-2 me-auto w-100">
         <div class="fw-bold">{{item.name}}</div>
         <div class="d-flex justify-content-between">
@@ -30,11 +30,11 @@
             <p class="mx-3 d-flex align-items-center">Son Dağıtılma Tarihi : {{item.lastDistribution?item.lastDistribution[item.lastDistribution.length-1]:"Hiç dağıtılmadı"}}</p>
           </div>
           <div class="setting-list d-flex align-items-end mx-5">
-            <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="updateCatering(item)" class="btn btn-primary mx-2 settings-btn">
+            <button *ngIf="isAdmin" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="updateCatering(item)" class="btn btn-primary mx-2 settings-btn">
               <span class="fa fa-edit"></span>
               Düzenle
             </button>
-            <button (click)="deleteCatering(item)" class="btn btn-danger settings-btn"><span class="fa fa-edit"></span>Sil</button>
+            <button *ngIf="isAdmin" (click)="deleteCatering(item)" class="btn btn-danger settings-btn"><span class="fa fa-edit"></span>Sil</button>
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ import {
   collectionData,
   deleteDoc,
   doc,
-  Firestore,
+  Firestore, getDoc,
   updateDoc
 } from "@angular/fire/firestore";
 import {update} from "@angular/fire/database";
@@ -18,18 +18,19 @@ import {update} from "@angular/fire/database";
 })
 export class CateringService {
 
-  item$!: Observable<any[]>;
+  items$!: Observable<any[]>;
   firestore: Firestore = inject(Firestore);
 
   constructor() {
 
   }
 
-  getData(): Observable<any[]>{
+  getDatas(): Observable<any[]>{
     const itemCollection = collection(this.firestore, 'selections');
-    console.log(collectionData(itemCollection))
-    return this.item$ = collectionData(itemCollection, { idField: 'firebaseId' });
-
+    return this.items$ = collectionData(itemCollection, { idField: 'firebaseId' });
+  }
+  getData(id:string){
+    return getDoc(doc(this.firestore, 'selections', id));
   }
 
   async addData(data:ICatering) {

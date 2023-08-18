@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import ValidateForm from "../../helpers/validateForm";
+import {AuthService} from "../../services/auth.service";
 
 
 @Component({
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit{
   eyeIcon:string = 'fa-eye-slash';
   loginForm!:FormGroup;
 
-  constructor(private fb:FormBuilder) {}
+  constructor(private fb:FormBuilder,private authService : AuthService) {}
   ngOnInit(): void {
     this.loginForm=this.fb.group({
       email:['',Validators.required],
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit{
 
    onSubmit(){
     if(this.loginForm.valid){
-
+      this.authService.login(this.loginForm.value.email,this.loginForm.value.password);
     }
     else{
       ValidateForm.validateAllFormFields(this.loginForm);

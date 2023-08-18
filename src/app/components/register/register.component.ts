@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import ValidateForm from "../../helpers/validateForm";
-import {Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
 
 @Component({
@@ -14,7 +13,7 @@ export class RegisterComponent implements OnInit{
   isText:boolean = false;
   eyeIcon:string = 'fa-eye-slash';
   signupForm!:FormGroup;
-  constructor(private fb:FormBuilder) {
+  constructor(private fb:FormBuilder,private authService : AuthService ) {
   }
   ngOnInit(): void {
     this.initForm();
@@ -36,6 +35,8 @@ export class RegisterComponent implements OnInit{
 
    onSignUp() {
     if(this.signupForm.valid){
+      this.authService.register(this.signupForm.value.email,this.signupForm.value.password,
+        this.signupForm.value.firstname,this.signupForm.value.lastname);
 
     }
     else{

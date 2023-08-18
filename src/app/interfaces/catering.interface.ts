@@ -1,4 +1,4 @@
-export interface ICatering {
+export interface ICatering{
   id:number;
   name: string;
   image: string;
