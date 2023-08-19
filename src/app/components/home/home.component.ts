@@ -14,6 +14,7 @@ import {VotesService} from "../../services/votes.service";
 export class HomeComponent implements OnInit{
 
   catering$: Observable<ICatering[]>;
+  users$: any[] | undefined;
 
   selectedCard:any|undefined;
   selectedCards:any[] = [];
@@ -31,6 +32,8 @@ export class HomeComponent implements OnInit{
 
   voteCards:any[] = [];
   activeVote:any;
+
+  userUsedVote:boolean = false;
   constructor(private cateringService: CateringService,
               private userService:UserService,
               private afAuth: AngularFireAuth,
@@ -48,6 +51,9 @@ export class HomeComponent implements OnInit{
         }
       });
     });
+    this.userService.getUsers().subscribe(data => {
+      this.users$ = data;
+    });
   }
 
   ngOnInit():void {
@@ -60,9 +66,16 @@ export class HomeComponent implements OnInit{
           if (this.userData.userType === 'admin'){
             this.isAdmin = true;
           }
+          if (this.userData.isCurrentVoteUsed === true){
+            this.userUsedVote = true;
+          }
         });
       }
     });
+
+    const date = new Date();
+    this.shortDate(date);
+
   }
 
   handleCheckboxChange(e:any,item:ICatering) {
@@ -89,7 +102,7 @@ export class HomeComponent implements OnInit{
     }
     console.log(this.isComplate)
   }
-  selectCard(card:any): void {
+   selectCard(card:any): void {
     this.selectedCard = card;
   }
 
@@ -99,10 +112,36 @@ export class HomeComponent implements OnInit{
     }
     else {
       this.selectedCard['voteCount']++;
-      console.log(this.activeVote.options)
-      //await this.votesService.updateData(this.activeVote.firebaseId, "d");
+      const selectedCardId = this.selectedCard['voteId'];
+      const currentUserPastVotes = this.userData.pastVotes;
+      const newPostVote = {
+        votingId: this.activeVote.firebaseId,
+        myVote: selectedCardId
+      }
+      currentUserPastVotes.push(newPostVote);
+      const votingData = {
+        option1: {
+          voteCount: this.activeVote.options['option1'].voteCount,
+          voteId:this.activeVote.options['option1'].voteId
+        },
+        option2: {
+          voteCount: this.activeVote.options['option2'].voteCount,
+          voteId:this.activeVote.options['option2'].voteId
+        },
+        option3: {
+          voteCount: this.activeVote.options['option3'].voteCount,
+          voteId:this.activeVote.options['option3'].voteId
+        },
+      }
+      const userData = {
+        isCurrentVoteUsed: true,
+        pastVotes: currentUserPastVotes
+      }
+      await this.votesService.updateData(this.activeVote.firebaseId, {options : votingData});
+      await this.userService.updateUser(this.user.uid, userData);
+      console.log(this.activeVote.options);
       console.log(this.selectedCard);
-
+      this.userUsedVote = true;
     }
   }
 
@@ -137,13 +176,44 @@ export class HomeComponent implements OnInit{
     };
     await this.votesService.addVote(newVoteData);
     this.resetModal();
+    this.userUsedVote = false;
   }
 
   async endVote() {
+    this.users$?.forEach( (user) => {
+      this.userService.updateUser(user.firebaseId, {isCurrentVoteUsed: false})
+    });
     const endDate = new Date();
     await this.votesService.updateData(this.activeVote.firebaseId, {isActive: false, endDate: endDate});
+    let maxVoteCount = -1;
+    let winnerId!:string;
+    for (const optionKey in this.activeVote.options) {
+      const option = this.activeVote.options[optionKey];
+      if (option.voteCount > maxVoteCount) {
+        maxVoteCount = option.voteCount;
+        winnerId = option.voteId;
+      }
+    }
+    await this.votesService.updateData(this.activeVote.firebaseId, {winnerId: winnerId});
+
+    this.cateringService.getData(winnerId).then((doc) => {
+      if (doc.exists()) {
+        let lastDateArray = doc.data()['lastDistribution'];
+        lastDateArray.push(this.shortDate(endDate));
+        if (doc.data()['maxVotes'] < maxVoteCount){
+          this.cateringService.updateData(winnerId, {maxVotes: maxVoteCount,lastDistribution: lastDateArray});
+        }
+        else{
+          this.cateringService.updateData(winnerId, {lastDistribution: lastDateArray});
+        }
+      }
+      else {
+        console.log("Bu id ye sahip bir id bulunamadı.");
+      }
+    });
     this.isVote = false;
     this.selectedCards = [];
+    this.userUsedVote = false;
   }
 
   alertStartVote() {
@@ -158,5 +228,14 @@ export class HomeComponent implements OnInit{
     if (this.selectedCards.length !== 0){
       //edit işlemlerini yapacağım.
     }
+  }
+
+  shortDate(date:Date) {
+    const day = date.getDate();
+    const month = date.toLocaleString('default', { month: 'long' });
+    const year = date.getFullYear();
+    const dayName = date.toLocaleString('default', { weekday: 'long' });
+
+    return `${day} ${month} ${year} ${dayName}`;
   }
 }

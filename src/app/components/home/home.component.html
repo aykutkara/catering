@@ -1,9 +1,9 @@
 <h2 class="text-center my-3">Oylama Sayfası</h2>
 <div class="voting-part mb-4 mt-4">
-   <div *ngIf="isAdmin" class="d-flex mb-3 align-items-center justify-content-between">
+   <div *ngIf="isAdmin" class="d-flex mb-3 align-items-center justify-content-between mx-4">
      <div class="d-flex align-items-center">
        <button class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="isVote? null :'#staticDrop'" (click)="alertStartVote() ">Oylama Başlat</button>
-       <h4 class="mx-5" *ngIf="isVote">16/08/2023 için oylama</h4>
+       <h4 class="mx-3" *ngIf="isVote">Bu Çarşamba'nın oylaması</h4>
      </div>
      <div>
        <button class="btn btn-warning mx-3">Oylamayı Düzenle</button>
@@ -11,8 +11,9 @@
      </div>
    </div>
    <div>
-      <p *ngIf="!isVote">Şuanda aktif bir oylama yok veya oyunuzu kullandınız</p>
-      <div *ngIf="isVote">
+      <p *ngIf="userUsedVote" class="text-center text-danger">Oyunuzu Kullandınız.</p>
+      <p *ngIf="!userUsedVote && !isVote" class="text-center text-danger">Şuanda aktif bir oylama yok</p>
+      <div *ngIf="isVote && !userUsedVote">
         <div class="voting-part my-5">
           <div class="form-check d-flex align-items-center" *ngFor="let item of voteCards; let i = index">
             <input (click)="selectCard(item)"  class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault{{i}}">
@@ -25,7 +26,6 @@
    </div>
 </div>
 <button *ngIf="isVote" class="btn btn-primary w-100 mb-3 py-2" (click)="onVote()">Oy Ver</button>
-
 <div class="modal fade" id="staticDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticDropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

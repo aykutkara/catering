@@ -1,14 +1,20 @@
 import {inject, Injectable} from '@angular/core';
-import { doc, Firestore, getDoc, setDoc} from "@angular/fire/firestore";
+import {collection, collectionData, doc, Firestore, getDoc, setDoc, updateDoc} from "@angular/fire/firestore";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
+  users$!: Observable<any[]>;
   firestore: Firestore = inject(Firestore);
 
   constructor() {
+  }
+  getUsers(): Observable<any[]>{
+    const itemCollection = collection(this.firestore, 'users');
+    return this.users$ = collectionData(itemCollection, { idField: 'firebaseId' });
   }
   async getUserData(uId: string) {
     try {
@@ -33,5 +39,8 @@ export class UserService {
       isCurrentVoteUsed:false,
       postVotes:[],
     });
+  }
+  async updateUser(id:string, data:any) {
+    await updateDoc(doc(this.firestore, 'users', id), data);
   }
 }

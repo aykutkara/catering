@@ -29,7 +29,7 @@
             <img [src]="item.image" alt="" style="height: 70px; width: 100px">
             <p class="mx-3 d-flex align-items-center">Son Dağıtılma Tarihi : {{item.lastDistribution?item.lastDistribution[item.lastDistribution.length-1]:"Hiç dağıtılmadı"}}</p>
           </div>
-          <div class="setting-list d-flex align-items-end mx-5">
+          <div class="setting-list d-flex align-items-end mx-3">
             <button *ngIf="isAdmin" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="updateCatering(item)" class="btn btn-primary mx-2 settings-btn">
               <span class="fa fa-edit"></span>
               Düzenle
