@@ -5,6 +5,7 @@ import {CateringService} from "../../services/catering.service";
 import {UserService} from "../../services/user.service";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {VotesService} from "../../services/votes.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -37,7 +38,8 @@ export class HomeComponent implements OnInit{
   constructor(private cateringService: CateringService,
               private userService:UserService,
               private afAuth: AngularFireAuth,
-              private votesService: VotesService) {
+              private votesService: VotesService,
+              private router: Router) {
 
     this.catering$ = this.cateringService.getDatas();
     this.votesService.getVotes().subscribe(data => {
@@ -111,6 +113,7 @@ export class HomeComponent implements OnInit{
       alert("Lütfen seçim yapınız.");
     }
     else {
+      await this.router.navigateByUrl('/active-voting');
       this.selectedCard['voteCount']++;
       const selectedCardId = this.selectedCard['voteId'];
       const currentUserPastVotes = this.userData.pastVotes;
@@ -198,7 +201,7 @@ export class HomeComponent implements OnInit{
 
     this.cateringService.getData(winnerId).then((doc) => {
       if (doc.exists()) {
-        let lastDateArray = doc.data()['lastDistribution'];
+        let lastDateArray = doc.data()['lastDistribution']?doc.data()['lastDistribution']:[];
         lastDateArray.push(this.shortDate(endDate));
         if (doc.data()['maxVotes'] < maxVoteCount){
           this.cateringService.updateData(winnerId, {maxVotes: maxVoteCount,lastDistribution: lastDateArray});

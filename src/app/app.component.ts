@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {AuthService} from "./services/auth.service";
+import {UserService} from "./services/user.service";
+import {AngularFireAuth} from "@angular/fire/compat/auth";
 
 @Component({
   selector: 'app-root',
@@ -11,8 +13,10 @@ export class AppComponent implements OnInit{
 
   activePage!:string;
   isLogin:boolean=true;
-
-  constructor(private router:Router,private authService:AuthService) {
+  userData:any;
+  constructor(private router:Router,private authService:AuthService,
+              private afAuth: AngularFireAuth,
+              private userService:UserService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.activePage=event.url;
@@ -24,8 +28,17 @@ export class AppComponent implements OnInit{
 
   }
   ngOnInit() {
-
+    this.afAuth.authState.subscribe(user => {
+      if(user) {
+        this.userService.getUserData(user.uid).then((doc) => {
+          this.userData = doc;
+          console.log(this.userData);
+        });
+      }
+    });
   }
+
+
   logout() {
     this.authService.logout();
   }

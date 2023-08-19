@@ -9,9 +9,9 @@ export class UserService {
 
   users$!: Observable<any[]>;
   firestore: Firestore = inject(Firestore);
-
   constructor() {
   }
+
   getUsers(): Observable<any[]>{
     const itemCollection = collection(this.firestore, 'users');
     return this.users$ = collectionData(itemCollection, { idField: 'firebaseId' });

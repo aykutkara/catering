@@ -1,4 +1,4 @@
-<div class="selection-card d-flex mx-3 my-2" [class.active]="isActive">
+<div *ngIf="data" class="selection-card d-flex mx-3 my-2" [class.active]="isActive">
   <div class="image">
     <img [src]=data.image alt="" style="height: 150px; width: 225px;">
   </div>

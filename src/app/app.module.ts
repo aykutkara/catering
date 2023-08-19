@@ -15,6 +15,8 @@ import {AuthService} from "./services/auth.service";
 import { SelectionCardComponent } from './components/selection-card/selection-card.component';
 import { AllCateringComponent } from './components/all-catering/all-catering.component';
 import {AngularFireModule} from "@angular/fire/compat";
+import { PastVotesComponent } from './components/past-votes/past-votes.component';
+import { ActiveVotingComponent } from './components/active-voting/active-voting.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import {AngularFireModule} from "@angular/fire/compat";
     RegisterComponent,
     SelectionCardComponent,
     AllCateringComponent,
+    PastVotesComponent,
+    ActiveVotingComponent,
   ],
   imports: [
     BrowserModule,

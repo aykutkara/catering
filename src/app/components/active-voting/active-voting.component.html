@@ -1,0 +1,9 @@
+<div class="active-voting">
+  <h3 class="text-center my-3">Aktif Oylama</h3>
+  <p *ngIf="!activeVote" class="text-center text-danger">Şuan Aktif Bir Oylama Bulunamadı</p>
+  <div class="my-5" *ngIf="activeVote">
+    <div *ngFor="let vote of voteCards">
+      <app-selection-card [inputData]="vote"></app-selection-card>
+    </div>
+  </div>
+</div>

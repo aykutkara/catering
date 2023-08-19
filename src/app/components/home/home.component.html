@@ -2,17 +2,16 @@
 <div class="voting-part mb-4 mt-4">
    <div *ngIf="isAdmin" class="d-flex mb-3 align-items-center justify-content-between mx-4">
      <div class="d-flex align-items-center">
-       <button class="btn btn-primary" data-bs-toggle="modal" [attr.data-bs-target]="isVote? null :'#staticDrop'" (click)="alertStartVote() ">Oylama Başlat</button>
        <h4 class="mx-3" *ngIf="isVote">Bu Çarşamba'nın oylaması</h4>
      </div>
      <div>
-       <button class="btn btn-warning mx-3">Oylamayı Düzenle</button>
-       <button class="btn btn-danger" (click)="endVote()">Oylamayı Bitir</button>
+       <button class="btn btn-warning mx-2" data-bs-toggle="modal" [attr.data-bs-target]="isVote? null :'#staticDrop'" (click)="alertStartVote() ">Oylama Başlat</button>
+       <button class="btn btn-success" (click)="endVote()">Oylamayı Bitir</button>
      </div>
    </div>
    <div>
       <p *ngIf="userUsedVote" class="text-center text-danger">Oyunuzu Kullandınız.</p>
-      <p *ngIf="!userUsedVote && !isVote" class="text-center text-danger">Şuanda aktif bir oylama yok</p>
+      <p *ngIf="!userUsedVote && !isVote" class="text-center text-danger">Şuan Aktif Bir Oylama Yok</p>
       <div *ngIf="isVote && !userUsedVote">
         <div class="voting-part my-5">
           <div class="form-check d-flex align-items-center" *ngFor="let item of voteCards; let i = index">
@@ -25,7 +24,7 @@
       </div>
    </div>
 </div>
-<button *ngIf="isVote" class="btn btn-primary w-100 mb-3 py-2" (click)="onVote()">Oy Ver</button>
+<button *ngIf="isVote && !userUsedVote" class="btn btn-primary w-100 mb-3 py-2" (click)="onVote()">Oy Ver</button>
 <div class="modal fade" id="staticDrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticDropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
