@@ -37,7 +37,7 @@ export class UserService {
       name:name,
       lastname:lastname,
       isCurrentVoteUsed:false,
-      postVotes:[],
+      pastVotes:[],
     });
   }
   async updateUser(id:string, data:any) {

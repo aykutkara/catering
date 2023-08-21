@@ -1,15 +1,15 @@
 <div class="past-votes">
   <h3 class="text-center my-3">Geçmiş Oylamalar</h3>
   <p *ngIf="!isPastVotes" class="text-center text-danger">Geçmiş Oylama Bulunmamaktadır</p>
-  <div *ngIf="isPastVotes" class="accordion accordion-flush mb-3" id="accordionFlushExample">
+  <div *ngIf="isPastVotes" class="accordion accordion-flush mb-3" [class.scrollList]="pastVoteCards.length>12" id="accordionFlushExample">
     <div class="accordion-item" *ngFor="let vote of pastVoteCards; let i = index;">
       <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapse' + i" aria-expanded="false" [attr.aria-controls]="'flush-collapse' + i">
-          Geçmiş Oylama #{{i+1}}
+          {{shortDate(vote['endDate'])}}
         </button>
       </h2>
       <div [id]="'flush-collapse' + i" class="accordion-collapse collapse" [attr.data-bs-parent]="'#accordionFlushExample'" [attr.aria-labelledby]="'flush-heading' + i">
-        <div class="accordion-body" *ngFor="let vt of vote">
+        <div class="accordion-body" *ngFor="let vt of pastVoteCardsOptions[i];let j =index">
           <app-selection-card [inputData]="vt"></app-selection-card>
         </div>
       </div>

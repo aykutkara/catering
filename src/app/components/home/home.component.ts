@@ -64,7 +64,6 @@ export class HomeComponent implements OnInit{
         this.user = user;
         this.userService.getUserData(this.user.uid).then((doc) => {
           this.userData = doc;
-          console.log(this.userData);
           if (this.userData.userType === 'admin'){
             this.isAdmin = true;
           }
@@ -117,11 +116,11 @@ export class HomeComponent implements OnInit{
       this.selectedCard['voteCount']++;
       const selectedCardId = this.selectedCard['voteId'];
       const currentUserPastVotes = this.userData.pastVotes;
-      const newPostVote = {
+      const newPastVote = {
         votingId: this.activeVote.firebaseId,
         myVote: selectedCardId
       }
-      currentUserPastVotes.push(newPostVote);
+      currentUserPastVotes.push(newPastVote);
       const votingData = {
         option1: {
           voteCount: this.activeVote.options['option1'].voteCount,

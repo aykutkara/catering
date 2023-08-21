@@ -29,6 +29,7 @@ export class AllCateringComponent implements OnInit{
     this.cateringService.getDatas().subscribe(data => {
       this.allCatering = data;
       this.updateSearchCatering();
+      this.getNewestCatering();
     });
 
   }
@@ -39,7 +40,6 @@ export class AllCateringComponent implements OnInit{
         this.user = user;
         this.userService.getUserData(this.user.uid).then((doc) => {
           this.userData = doc;
-          console.log(this.userData);
           if (this.userData.userType === 'admin'){
             this.isAdmin = true ;
           }
@@ -85,6 +85,7 @@ export class AllCateringComponent implements OnInit{
           id: lastId + 1,
           name: this.cateringForm.value.name,
           image: this.cateringForm.value.image,
+          maxVotes: 0,
         }
         await this.cateringService.addData(newCatering);
         this.initForm();
@@ -114,5 +115,40 @@ export class AllCateringComponent implements OnInit{
       return item.name.toLowerCase().includes(this.searchText.toLowerCase());
     });
   }
+  getNewestCatering() {
+    this.filterCatering('newest');
+  }
+  getOldestCatering() {
+    this.filterCatering('oldest');
+  }
+  getLowToHighCatering() {
+    this.filterCatering('LowToHigh');
+  }
+  getHighToLowCatering() {
+    this.filterCatering('HighToLow');
+  }
+  filterCatering(sortType: string) {
+    if (sortType === 'oldest') {
+      // Tarihe göre sıralama (en eski en başta)
+      this.searchCatering?.sort((a, b) => a.id - b.id);
+    } else if (sortType === 'newest') {
+      // Tarihe göre sıralama (en yeni en başta)
+      this.searchCatering?.sort((a, b) => b.id - a.id);
+    } else if (sortType === 'LowToHigh') {
+      // Görüntülenme sayısına göre sıralama (azdan çoğa)
+      this.searchCatering?.sort((a, b) => a.maxVotes - b.maxVotes);
+    } else if (sortType === 'HighToLow') {
+      // Görüntülenme sayısına göre sıralama (çoktan aza)
+      this.searchCatering?.sort((a, b) => b.maxVotes - a.maxVotes);
+    } else {
+      // Filtre yoksa en yeniyi döndür
+      this.searchCatering?.sort((a, b) => b.id - a.id);
+    }
+  }
 
+  searchInputClear() {
+    this.searchText = '';
+    this.updateSearchCatering();
+    this.getNewestCatering();
+  }
 }

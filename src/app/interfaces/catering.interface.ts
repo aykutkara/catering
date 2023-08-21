@@ -3,5 +3,5 @@ export interface ICatering{
   name: string;
   image: string;
   lastDistribution?: string[];
-  maxVotes?: number;
+  maxVotes: number;
 }

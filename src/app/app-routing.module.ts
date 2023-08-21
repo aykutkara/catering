@@ -7,6 +7,7 @@ import {AllCateringComponent} from "./components/all-catering/all-catering.compo
 import {AuthGuard} from "./guards/auth.guard";
 import {PastVotesComponent} from "./components/past-votes/past-votes.component";
 import {ActiveVotingComponent} from "./components/active-voting/active-voting.component";
+import {ProfileComponent} from "./components/profile/profile.component";
 
 const routes: Routes = [
   {path:'login', component: LoginComponent},
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path:'home',canActivate: [AuthGuard], component: HomeComponent},
   {path:'all-catering', canActivate: [AuthGuard], component: AllCateringComponent},
   {path:'past-votes', canActivate: [AuthGuard], component: PastVotesComponent},
-  {path:'active-voting', canActivate: [AuthGuard], component: ActiveVotingComponent}
+  {path:'active-voting', canActivate: [AuthGuard], component: ActiveVotingComponent},
+  {path:'profile', canActivate: [AuthGuard], component: ProfileComponent}
 
 
 ];

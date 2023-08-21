@@ -17,6 +17,8 @@ import { AllCateringComponent } from './components/all-catering/all-catering.com
 import {AngularFireModule} from "@angular/fire/compat";
 import { PastVotesComponent } from './components/past-votes/past-votes.component';
 import { ActiveVotingComponent } from './components/active-voting/active-voting.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { CardComponent } from './components/card/card.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { ActiveVotingComponent } from './components/active-voting/active-voting.
     AllCateringComponent,
     PastVotesComponent,
     ActiveVotingComponent,
+    ProfileComponent,
+    CardComponent,
   ],
   imports: [
     BrowserModule,

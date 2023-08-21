@@ -12,7 +12,7 @@
   width: 90%;
   margin: 0 auto;
   max-height: 35rem;
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 .settings-btn{
   font-size: 0.8rem;
@@ -29,4 +29,7 @@
 }
 .invalid-input{
   border: 1px solid red;
+}
+.dropdownLi{
+  cursor: pointer;
 }

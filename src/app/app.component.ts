@@ -32,7 +32,6 @@ export class AppComponent implements OnInit{
       if(user) {
         this.userService.getUserData(user.uid).then((doc) => {
           this.userData = doc;
-          console.log(this.userData);
         });
       }
     });

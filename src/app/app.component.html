@@ -9,7 +9,7 @@
           <span class="navbar-span" [class.active]="activePage === '/all-catering'" routerLink="/all-catering">Tüm İkramlar</span>
         </div>
         <div>
-          <span class="navbar-span">{{userData?.name}}</span>
+          <span class="navbar-span" [class.active]="activePage === '/profile'" routerLink="/profile">{{userData?.name}}</span>
           <span class="navbar-span" (click)="logout()">Çıkış Yap</span>
         </div>
       </div>

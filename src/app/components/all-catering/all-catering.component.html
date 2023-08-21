@@ -4,6 +4,7 @@
     <div class="input-field" [ngClass]="isAdmin?'searchDiv':'longSearch'">
       <span class="fa fa-search p-2"></span>
       <input [(ngModel)]="searchText" (input)="onSearchTextChange()" type="text" placeholder="Search">
+      <span class="fa fa-close p-2" (click)="searchInputClear()"></span>
     </div >
     <div class="new-catering mx-2 d-flex align-items-center">
       <button *ngIf="isAdmin" type="button" class="btn btn-info mx-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Yeni İkram</button>
@@ -13,10 +14,10 @@
         Sıralama
       </button>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="/all-catering">Tarihe göre en yeni</a></li>
-        <li><a class="dropdown-item" href="/all-catering">Tarihe göre en eski</a></li>
-        <li><a class="dropdown-item" href="/all-catering">En çok tercih edilen</a></li>
-        <li><a class="dropdown-item" href="/all-catering">En az tercih edilen</a></li>
+        <li><a class="dropdown-item dropdownLi" (click)="getNewestCatering()">Tarihe göre en yeni</a></li>
+        <li><a class="dropdown-item dropdownLi" (click)="getOldestCatering()">Tarihe göre en eski</a></li>
+        <li><a class="dropdown-item dropdownLi" (click)="getHighToLowCatering()" >En çok tercih edilen</a></li>
+        <li><a class="dropdown-item dropdownLi" (click)="getLowToHighCatering()">En az tercih edilen</a></li>
       </ul>
     </div>
   </div>
