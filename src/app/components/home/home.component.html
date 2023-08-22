@@ -6,7 +6,7 @@
      </div>
      <div>
        <button class="btn btn-warning mx-2" data-bs-toggle="modal" [attr.data-bs-target]="isVote? null :'#staticDrop'" (click)="alertStartVote() ">Oylama Başlat</button>
-       <button class="btn btn-success" (click)="endVote()">Oylamayı Bitir</button>
+       <button class="btn btn-success" [disabled]="!isVote" (click)="endVote()">Oylamayı Bitir</button>
      </div>
    </div>
    <div>

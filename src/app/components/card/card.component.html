@@ -1,10 +1,9 @@
 <div *ngIf="data" class="custom-card ">
-  <div class="card" style="width: 252px;">
+  <div class="card" [class.winnerBorder]="isWinner" style="width: 252px;">
     <img [src]=data.image class="card-img-top" alt="" style="width: 250px; height: 157px">
     <div class="card-body">
       <h5 class="card-title">{{data.name}}</h5>
-      <p class="card-text"></p>
+      <p class="card-text">Oy Sayısı : {{inputData.voteCount}} <span *ngIf="isWinner">oy ile <strong class=" bg-success text-white p-1 rounded" >Kazandı</strong></span></p>
     </div>
-    <p></p>
   </div>
 </div>

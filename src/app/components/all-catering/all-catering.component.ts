@@ -130,10 +130,10 @@ export class AllCateringComponent implements OnInit{
   filterCatering(sortType: string) {
     if (sortType === 'oldest') {
       // Tarihe göre sıralama (en eski en başta)
-      this.searchCatering?.sort((a, b) => a.id - b.id);
+      this.searchCatering?.sort((a, b) => this.compareLastDistribution(a, b));
     } else if (sortType === 'newest') {
       // Tarihe göre sıralama (en yeni en başta)
-      this.searchCatering?.sort((a, b) => b.id - a.id);
+      this.searchCatering?.sort((a, b) => this.compareLastDistribution(b, a));
     } else if (sortType === 'LowToHigh') {
       // Görüntülenme sayısına göre sıralama (azdan çoğa)
       this.searchCatering?.sort((a, b) => a.maxVotes - b.maxVotes);
@@ -142,10 +142,48 @@ export class AllCateringComponent implements OnInit{
       this.searchCatering?.sort((a, b) => b.maxVotes - a.maxVotes);
     } else {
       // Filtre yoksa en yeniyi döndür
-      this.searchCatering?.sort((a, b) => b.id - a.id);
+      this.searchCatering?.sort((a, b) => this.compareLastDistribution(b, a));
     }
   }
 
+  compareLastDistribution(a: any, b: any): number {
+    const dateA = this.getLastDistributionDate(a);
+    const dateB = this.getLastDistributionDate(b);
+
+    if (!dateA && !dateB) {
+      return 0; // İki verinin de lastDistribution yoksa sıralamada değişiklik olmaz
+    } else if (!dateA) {
+      return -1; // Sadece A'nın lastDistribution'u yoksa B'yi öne getir
+    } else if (!dateB) {
+      return 1; // Sadece B'nin lastDistribution'u yoksa A'yı öne getir
+    }
+
+    return dateA.getTime() - dateB.getTime(); // En yeni tarihleri önce getirmek için sıra tersine çevrildi
+  }
+
+  getLastDistributionDate(item: any): Date | null {
+    if (item && item.lastDistribution && Array.isArray(item.lastDistribution)) {
+      const lastDistributionDates = item.lastDistribution.map((dateString: string) => this.convertStringToDate(dateString));
+      console.log(lastDistributionDates);
+      return lastDistributionDates[lastDistributionDates.length - 1];
+    }
+    return null;
+  }
+
+  convertStringToDate(dateString: string): Date {
+    const dateParts = dateString.split(" ");
+    const day = parseInt(dateParts[0]);
+    const monthName = dateParts[1];
+    const year = parseInt(dateParts[2]);
+
+    const months = [
+      "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+      "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+    ];
+    const month = months.findIndex(month => month === monthName);
+    return new Date(year, month, day);
+
+  }
   searchInputClear() {
     this.searchText = '';
     this.updateSearchCatering();

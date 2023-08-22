@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {VotesService} from "../../services/votes.service";
-import {Subscription} from "rxjs";
+import {style} from "@angular/animations";
 
 @Component({
   selector: 'app-past-votes',
@@ -12,7 +12,7 @@ export class PastVotesComponent implements OnInit{
   pastVoteCards:any[] = [];
   pastVoteCardsOptions:any[] = []
   isPastVotes:boolean = false;
-
+  activeAccordion: number | null = null;
   constructor(private votesService: VotesService) {}
 
   ngOnInit() {
@@ -28,8 +28,6 @@ export class PastVotesComponent implements OnInit{
     });
   }
 
-
-
   shortDate(timestamp: any) {
     const seconds = timestamp.seconds;
     const milliseconds = timestamp.nanoseconds / 1000000;
@@ -43,4 +41,12 @@ export class PastVotesComponent implements OnInit{
     return `${day} ${month} ${year} ${dayName}`;
   }
 
+
+  toggleAccordion(accordionNumber: number): void {
+    if (this.activeAccordion === accordionNumber) {
+      this.activeAccordion = null;
+    } else {
+      this.activeAccordion = accordionNumber;
+    }
+  }
 }

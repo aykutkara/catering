@@ -1,17 +1,18 @@
 <div class="profile-page">
-  <h3 class="text-center my-3">Katıldığım oylamalar</h3>
-  <p  class="text-center text-danger">Geçmiş Oylama Bulunmamaktadır</p>
-  <div  class="accordion accordion-flush mb-3" [class.scrollList]="userAttendedVotes.length>12" id="accordionFlushExample">
-    <div class="accordion-item" *ngFor="let vote of userAttendedVotes; let i = index;">
+  <h3 class="text-center my-3">Katıldığım Oylamalar</h3>
+  <p *ngIf="isVote" class="text-center text-danger">Daha Önce Katıldığın Bir oylama Bulunamadı</p>
+  <div  class="accordion accordion-flush mb-3" [class.scrollList]="userAttendedVotes.length>12 || (userAttendedVotes.length>7 && activeAccordion !=null)" id="accordionFlushExample">
+    <div class="accordion-item"  *ngFor="let vote of userAttendedVotes; let i = index;">
       <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapse' + i" aria-expanded="false" [attr.aria-controls]="'flush-collapse' + i">
+        <button (click)="getMyVote(userPastVotes[i].myVote);toggleAccordion(i)" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#flush-collapse' + i" aria-expanded="false" [attr.aria-controls]="'flush-collapse' + i">
           {{shortDate(vote['endDate'])}}
         </button>
       </h2>
       <div [id]="'flush-collapse' + i" class="accordion-collapse collapse" [attr.data-bs-parent]="'#accordionFlushExample'" [attr.aria-labelledby]="'flush-heading' + i">
-        <div class="d-flex">
-          <div class="accordion-body d-flex" *ngFor="let vt of userAttendedVotesOptions[i];let j =index">
-            <app-card [inputData]="vt"></app-card>
+        <p class="mt-3 mx-2"> <strong>Benim Oyum:</strong> {{myVotesName}}</p>
+        <div class="d-flex justify-content-between">
+          <div class="m-2" *ngFor="let vt of userAttendedVotesOptions[i];let j =index">
+            <app-card [inputData]="vt" [winnerId]="vote.winnerId"></app-card>
           </div>
         </div>
       </div>

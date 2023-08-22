@@ -4,9 +4,9 @@
       <div class="navbar-top d-flex align-items-center p-3 justify-content-between bg-white mt-5 rounded-3 col-8 offset-2">
         <div>
           <span class="navbar-span" [class.active]="activePage === '/home'"  routerLink="/home">Ana Sayfa</span>
+          <span class="navbar-span" [class.active]="activePage === '/all-catering'" routerLink="/all-catering">Tüm İkramlar</span>
           <span class="navbar-span" [class.active]="activePage === '/active-voting'" routerLink="/active-voting">Aktif Oylama</span>
           <span class="navbar-span" [class.active]="activePage === '/past-votes'" routerLink="/past-votes">Geçmiş Oylamalar</span>
-          <span class="navbar-span" [class.active]="activePage === '/all-catering'" routerLink="/all-catering">Tüm İkramlar</span>
         </div>
         <div>
           <span class="navbar-span" [class.active]="activePage === '/profile'" routerLink="/profile">{{userData?.name}}</span>
