@@ -20,8 +20,9 @@ export class AppComponent implements OnInit{
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.activePage=event.url;
+        console.log(this.activePage);
         if (this.activePage == '/login' || this.activePage == '/register' || this.activePage == '/') {
-          this.isLogin = false;
+          //this.isLogin = false;
         }
       }
     });
