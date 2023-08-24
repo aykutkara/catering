@@ -1,7 +1,6 @@
 <div class="outer">
   <div class="container">
     <div class="row">
-      {{isLogin}}
       <div *ngIf="isLogin" class="navbar-top d-flex align-items-center p-3 justify-content-between bg-white mt-5 rounded-3 col-8 offset-2">
         <div>
           <span class="navbar-span" [class.active]="activePage === '/home'"  routerLink="/home">Ana Sayfa</span>

@@ -19,7 +19,6 @@ const routes: Routes = [
   {path:'active-voting', canActivate: [AuthGuard], component: ActiveVotingComponent},
   {path:'profile', canActivate: [AuthGuard], component: ProfileComponent}
 
-
 ];
 
 @NgModule({

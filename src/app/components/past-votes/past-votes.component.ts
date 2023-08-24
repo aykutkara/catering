@@ -16,6 +16,7 @@ export class PastVotesComponent implements OnInit{
   constructor(private votesService: VotesService) {}
 
   ngOnInit() {
+    this.pastVoteCards = [];
     this.votesService.getVotes().subscribe(data => {
       console.log(data);
       data.map(item => {
